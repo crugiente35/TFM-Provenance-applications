@@ -1,0 +1,627 @@
+{
+    "@context": [
+        "http://jpeg.org/jpegtrust/"
+    ],
+    "manifests": [
+        {
+            "label": "urn:c2pa:e46d866e-c9b9-4015-8564-8b513698f862",
+            "assertions": {
+                "c2pa.thumbnail.ingredient": {
+                    "mediaType": "image/jpeg",
+                    "data": "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"
+                },
+                "c2pa.ingredient.v3__1": {
+                    "dc:title": "Reference Image",
+                    "dc:format": "image/jpeg",
+                    "relationship": "parentOf",
+                    "validationResults": {
+                        "activeManifest": {
+                            "success": [],
+                            "informational": [
+                                {
+                                    "code": "c2pa.status.informational",
+                                    "explanation": "Original provenance preserved; not re-validated by this service.",
+                                    "success": true
+                                }
+                            ],
+                            "failure": []
+                        },
+                        "ingredientDeltas": []
+                    },
+                    "instanceID": "uuid:f6fb1779-f324-4c9c-97d6-eac51515b7a3",
+                    "activeManifest": {
+                        "url": "urn:c2pa:c5bbaba4-4116-4df8-ba5c-bab69c0a8887",
+                        "hash": "cMl2cZrMqsBpLi/bPmqzFIJAH96Mtmu12VrVK5IPtE4=",
+                        "alg": "sha256"
+                    },
+                    "claimSignature": {
+                        "url": "urn:c2pa:c5bbaba4-4116-4df8-ba5c-bab69c0a8887/c2pa.signature",
+                        "hash": "srJwobxsv9sgHh2P6YOvW2+YUffuQsenrZrVZCVvefA=",
+                        "alg": "sha256"
+                    },
+                    "thumbnail": {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.thumbnail.ingredient",
+                        "hash": "7gjTynVndY4xrH8McF7ubfORy5208fMA7AzJnU2FkfU=",
+                        "alg": "sha256"
+                    },
+                    "description": "Reference image used to guide the diffusion model's visual style"
+                },
+                "c2pa.hash.data": {
+                    "exclusions": [
+                        {
+                            "length": 49359,
+                            "start": 2
+                        }
+                    ],
+                    "alg": "sha256",
+                    "hash": "7Fp5qKmImixJRBMLbYSZENRASEpzCUvnXYmpBgyESRU=",
+                    "pad": "AAAAAA==",
+                    "pad2": ""
+                },
+                "c2pa.ingredient.v3__2": {
+                    "dc:title": "Inference Parameters",
+                    "dc:format": "application/json",
+                    "relationship": "inputTo",
+                    "data": {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.embedded-data__1",
+                        "hash": "JEAXAPyUNn7IM6nq3k2eZKs3OdJB2En1logZKtfi2ZA=",
+                        "alg": "sha256"
+                    },
+                    "dataTypes": [
+                        {
+                            "type": "c2pa.types.generator.parameters"
+                        }
+                    ]
+                },
+                "c2pa.embedded-data__1": {
+                    "mediaType": "application/json",
+                    "data": "eyJzZWVkIjoyNDgwMjAxNDIyMjYxNTc0NjA0LCJndWlkYW5jZV9zY2FsZSI6NC4wfQ=="
+                },
+                "c2pa.embedded-data": {
+                    "mediaType": "text/plain",
+                    "data": "QWRkIGEgTXVzdGFjaGUgdG8gdGhlIHdvbWFu"
+                },
+                "c2pa.ingredient.v3": {
+                    "dc:title": "Generation Prompt",
+                    "dc:format": "text/plain",
+                    "relationship": "inputTo",
+                    "data": {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.embedded-data",
+                        "hash": "PJkzXsp0FV8DUQZMNZDRcxz0Z6dCRG7ZUj7Gm5OkZpU=",
+                        "alg": "sha256"
+                    },
+                    "dataTypes": [
+                        {
+                            "type": "c2pa.types.generator.prompt"
+                        }
+                    ],
+                    "description": "Text prompt provided to the model for this generation"
+                },
+                "c2pa.actions.v2": {
+                    "actions": [
+                        {
+                            "action": "c2pa.created",
+                            "softwareAgent": {
+                                "name": "Fooocus 2.5.0"
+                            },
+                            "digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia",
+                            "when": "2026-05-17T19:00:52.214150548Z",
+                            "parameters": {
+                                "ingredients": [
+                                    {
+                                        "url": "self#jumbf=c2pa.assertions/c2pa.ingredient.v3",
+                                        "hash": "32D2lltVUapgwefuAuDDDfVlhhL0mLaT+I/8Z/1cd6U=",
+                                        "alg": "sha256"
+                                    },
+                                    {
+                                        "url": "self#jumbf=c2pa.assertions/c2pa.ingredient.v3__1",
+                                        "hash": "pAR1QDCVhBMr14a1Uv//fQu0eqlgR3axHInEbtTstDQ=",
+                                        "alg": "sha256"
+                                    },
+                                    {
+                                        "url": "self#jumbf=c2pa.assertions/c2pa.ingredient.v3__2",
+                                        "hash": "9bAbeBKU5pzY4Z8NvaGXmc4/46R6sElSXHzrPiYd6ZM=",
+                                        "alg": "sha256"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "c2pa.ai-disclosure": {
+                    "modelType": "diffusion",
+                    "modelName": "Fooocus 2.5.0",
+                    "modelIdentifier": "https://github.com/lllyasviel/Fooocus",
+                    "humanOversightLevel": "PROMPT_GUIDED",
+                    "scientificDomain": [
+                        "cs.AI",
+                        "cs.CV"
+                    ]
+                }
+            },
+            "claim.v2": {
+                "instanceID": "uuid:055ddd7a-bd2f-4a55-9a47-a7f5be9e4e1a",
+                "claim_generator_info": {
+                    "name": "Fooocus Spring Orchestrator 1.0"
+                },
+                "signature": "self#jumbf=/c2pa/urn:c2pa:e46d866e-c9b9-4015-8564-8b513698f862/c2pa.signature",
+                "created_assertions": [
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.embedded-data",
+                        "hash": "SubCJRdX7FPrUgCDBuOsxFknH26dznYaBfvLmW61DeM="
+                    },
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.ingredient.v3",
+                        "hash": "Q1R8IPULj7Xos8O5/fkMl8MVD+YtzRzriyBcZxn74J8="
+                    },
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.thumbnail.ingredient",
+                        "hash": "5ftQOnJcuNW9jV064E7FK6KLAdC6NKX2/xknEBfVUis="
+                    },
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.ingredient.v3__1",
+                        "hash": "Xf8bfFAvmzOrNtUaF3iu5zsXLk4ib6lsN5MknXIAx7k="
+                    },
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.embedded-data__1",
+                        "hash": "ts9e0m10+LKNo34WOJFV7al8gZJby8oouviMZHhIWpM="
+                    },
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.ingredient.v3__2",
+                        "hash": "6V5oRQgDlArt4J4rdsW/zQ5W9bYHOCB77V/jjqRCw9E="
+                    },
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.actions.v2",
+                        "hash": "YhbwJMYOKgOXqGLl/FB1HZU7DXCeopwlWqUZGIhBgBM="
+                    },
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.ai-disclosure",
+                        "hash": "8mi6pPZPd9lgOQ+Ua5ucqh4EtQJgmTdzBhlbtiX+rSk="
+                    },
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.hash.data",
+                        "hash": "xhvvP5G4pzShuaxSBhRAc4AVTWnBb7zKbGN41DR762Q="
+                    }
+                ],
+                "gathered_assertions": [],
+                "dc:title": "AI Generated Asset",
+                "redacted_assertions": [],
+                "alg": "sha256"
+            },
+            "status": {
+                "signature": "claimSignature.validated",
+                "assertion": {
+                    "c2pa.thumbnail.ingredient": "assertion.hashedURI.match",
+                    "c2pa.ingredient.v3__1": "assertion.hashedURI.match",
+                    "c2pa.hash.data": "assertion.hashedURI.match",
+                    "c2pa.ingredient.v3__2": "assertion.hashedURI.match",
+                    "c2pa.embedded-data__1": "assertion.hashedURI.match",
+                    "c2pa.embedded-data": "assertion.hashedURI.match",
+                    "c2pa.ingredient.v3": "assertion.hashedURI.match",
+                    "c2pa.actions.v2": "assertion.hashedURI.match",
+                    "c2pa.ai-disclosure": "assertion.hashedURI.match"
+                },
+                "content": "assertion.dataHash.mismatch",
+                "trust": ""
+            },
+            "claim_signature": {
+                "signature_algorithm": "ES256",
+                "subject": {
+                    "ST": "CA",
+                    "CN": "C2PA Signer",
+                    "C": "US",
+                    "L": "Somewhere",
+                    "OU": "FOR TESTING_ONLY",
+                    "O": "C2PA Test Signing Cert"
+                },
+                "issuer": {
+                    "ST": "CA",
+                    "CN": "Intermediate CA",
+                    "C": "US",
+                    "L": "Somewhere",
+                    "OU": "FOR TESTING_ONLY",
+                    "O": "C2PA Test Intermediate Root CA"
+                },
+                "validity": {
+                    "not_after": "2030-08-26T18:46:40Z",
+                    "not_before": "2022-06-10T18:46:40Z"
+                }
+            }
+        },
+        {
+            "label": "urn:c2pa:c5bbaba4-4116-4df8-ba5c-bab69c0a8887",
+            "assertions": {
+                "c2pa.thumbnail.ingredient": {
+                    "mediaType": "image/jpeg",
+                    "data": "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"
+                },
+                "c2pa.ingredient.v3__1": {
+                    "dc:title": "Reference Image",
+                    "dc:format": "image/jpeg",
+                    "relationship": "parentOf",
+                    "validationResults": {
+                        "activeManifest": {
+                            "success": [],
+                            "informational": [
+                                {
+                                    "code": "c2pa.status.informational",
+                                    "explanation": "Original provenance preserved; not re-validated by this service.",
+                                    "success": true
+                                }
+                            ],
+                            "failure": []
+                        },
+                        "ingredientDeltas": []
+                    },
+                    "instanceID": "uuid:5d298ff7-6dd0-4e73-8d70-0da4c3f4f1d8",
+                    "activeManifest": {
+                        "url": "urn:c2pa:208039d0-00dc-418e-8b9e-a5717dbdd66d",
+                        "hash": "r8N0vGehrGOyGiqLnr6nrnAFzsAnSEne9hcABquMU5g=",
+                        "alg": "sha256"
+                    },
+                    "claimSignature": {
+                        "url": "urn:c2pa:208039d0-00dc-418e-8b9e-a5717dbdd66d/c2pa.signature",
+                        "hash": "d5ovkDxrU81ZdwDF+h9Cou7N5rqgljFLhT+ZrQbGQGc=",
+                        "alg": "sha256"
+                    },
+                    "thumbnail": {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.thumbnail.ingredient",
+                        "hash": "on06RSvfysn5zzJU03WATSmGdHOifReH9S9gisZHIxk=",
+                        "alg": "sha256"
+                    },
+                    "description": "Reference image used to guide the diffusion model's visual style"
+                },
+                "c2pa.hash.data": {
+                    "exclusions": [
+                        {
+                            "length": 29418,
+                            "start": 2
+                        }
+                    ],
+                    "alg": "sha256",
+                    "hash": "9E6hmpg6cGe7lGnozpXTimfqeafVoUTSe/AzFCIRqXs=",
+                    "pad": "AAAAAA==",
+                    "pad2": ""
+                },
+                "c2pa.ingredient.v3__2": {
+                    "dc:title": "Inference Parameters",
+                    "dc:format": "application/json",
+                    "relationship": "inputTo",
+                    "data": {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.embedded-data__1",
+                        "hash": "x5JGnqXJnGscCMPZB7ydext+77hBGY8awe+Ll7j6GSE=",
+                        "alg": "sha256"
+                    },
+                    "dataTypes": [
+                        {
+                            "type": "c2pa.types.generator.parameters"
+                        }
+                    ]
+                },
+                "c2pa.embedded-data__1": {
+                    "mediaType": "application/json",
+                    "data": "eyJzZWVkIjo0NjgxNTgzOTgwNzY4MDY0NzA4LCJndWlkYW5jZV9zY2FsZSI6NC4wfQ=="
+                },
+                "c2pa.embedded-data": {
+                    "mediaType": "text/plain",
+                    "data": "QWRkIGEgaGF0IHRvIHRoZSB3b21hbg=="
+                },
+                "c2pa.ingredient.v3": {
+                    "dc:title": "Generation Prompt",
+                    "dc:format": "text/plain",
+                    "relationship": "inputTo",
+                    "data": {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.embedded-data",
+                        "hash": "WI9mrCoG4qpKUkQj4twmW/vOfA2bHAgRazRVhWrn5p8=",
+                        "alg": "sha256"
+                    },
+                    "dataTypes": [
+                        {
+                            "type": "c2pa.types.generator.prompt"
+                        }
+                    ],
+                    "description": "Text prompt provided to the model for this generation"
+                },
+                "c2pa.actions.v2": {
+                    "actions": [
+                        {
+                            "action": "c2pa.created",
+                            "softwareAgent": {
+                                "name": "Fooocus 2.5.0"
+                            },
+                            "digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia",
+                            "when": "2026-05-15T15:36:03.522606950Z",
+                            "parameters": {
+                                "ingredients": [
+                                    {
+                                        "url": "self#jumbf=c2pa.assertions/c2pa.ingredient.v3",
+                                        "hash": "5gIa1/cFYnF3TgmTOv7GzcmVjG8DzGds5y1pTny4Eyo=",
+                                        "alg": "sha256"
+                                    },
+                                    {
+                                        "url": "self#jumbf=c2pa.assertions/c2pa.ingredient.v3__1",
+                                        "hash": "X+7FwRqE8RACq3z0wRdrfrdZbDg7RD/xQeXXflJehJw=",
+                                        "alg": "sha256"
+                                    },
+                                    {
+                                        "url": "self#jumbf=c2pa.assertions/c2pa.ingredient.v3__2",
+                                        "hash": "xwPQZiXhYSO1TznbXY8Qa4p4ef5V/FFXic2Mx4bzuxA=",
+                                        "alg": "sha256"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "c2pa.ai-disclosure": {
+                    "modelType": "diffusion",
+                    "modelName": "Fooocus 2.5.0",
+                    "modelIdentifier": "https://github.com/lllyasviel/Fooocus",
+                    "humanOversightLevel": "PROMPT_GUIDED",
+                    "scientificDomain": [
+                        "cs.AI",
+                        "cs.CV"
+                    ]
+                }
+            },
+            "claim.v2": {
+                "instanceID": "uuid:e886a8d2-67e8-4cc2-870b-2ce8cfecb506",
+                "claim_generator_info": {
+                    "name": "Fooocus Spring Orchestrator 1.0"
+                },
+                "signature": "self#jumbf=/c2pa/urn:c2pa:c5bbaba4-4116-4df8-ba5c-bab69c0a8887/c2pa.signature",
+                "created_assertions": [
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.embedded-data",
+                        "hash": "0MmSFQmQ2cBJflT1nwrMf53TKy+EWKgxZlp828mUgeU="
+                    },
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.ingredient.v3",
+                        "hash": "/cavrexVZ0ixOmUNziHLsb7ljzizdJc/szPeDEZMPr8="
+                    },
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.thumbnail.ingredient",
+                        "hash": "UbIu7ny2M074pfixb+mGoa/GhcxQclY5hf0o6R8I/7g="
+                    },
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.ingredient.v3__1",
+                        "hash": "ct3dxyS4LLlHq0x591UlVKsq+eBeXwm36Ph9WYSQ/KE="
+                    },
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.embedded-data__1",
+                        "hash": "YpKmi1O6z0po23PwYE3EdDU+bw68AZZ94+QCRW2vsxQ="
+                    },
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.ingredient.v3__2",
+                        "hash": "dq5ecNaaurnZtMsN3Z0A8RJLHa6t2Fqi+1AupANxc4g="
+                    },
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.actions.v2",
+                        "hash": "rExMvBJegpYzFVWQZD1hFc5/N8a1UnqDtEPRW9mpltQ="
+                    },
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.ai-disclosure",
+                        "hash": "+pnmL6MvZT3x3WlS5EraMJRqrwf63UbjZgpIiJWRf/4="
+                    },
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.hash.data",
+                        "hash": "g7gA7Ve1OEKUQSQKynidjsDilisBTMpuT2iqa9rw0zo="
+                    }
+                ],
+                "gathered_assertions": [],
+                "dc:title": "AI Generated Asset",
+                "redacted_assertions": [],
+                "alg": "sha256"
+            },
+            "status": {
+                "signature": "claimSignature.validated",
+                "assertion": {
+                    "c2pa.thumbnail.ingredient": "assertion.hashedURI.match",
+                    "c2pa.ingredient.v3__1": "assertion.hashedURI.match",
+                    "c2pa.hash.data": "assertion.hashedURI.match",
+                    "c2pa.ingredient.v3__2": "assertion.hashedURI.match",
+                    "c2pa.embedded-data__1": "assertion.hashedURI.match",
+                    "c2pa.embedded-data": "assertion.hashedURI.match",
+                    "c2pa.ingredient.v3": "assertion.hashedURI.match",
+                    "c2pa.actions.v2": "assertion.hashedURI.match",
+                    "c2pa.ai-disclosure": "assertion.hashedURI.match"
+                },
+                "content": "",
+                "trust": ""
+            },
+            "claim_signature": {
+                "signature_algorithm": "ES256",
+                "subject": {
+                    "ST": "CA",
+                    "CN": "C2PA Signer",
+                    "C": "US",
+                    "L": "Somewhere",
+                    "OU": "FOR TESTING_ONLY",
+                    "O": "C2PA Test Signing Cert"
+                },
+                "issuer": {
+                    "ST": "CA",
+                    "CN": "Intermediate CA",
+                    "C": "US",
+                    "L": "Somewhere",
+                    "OU": "FOR TESTING_ONLY",
+                    "O": "C2PA Test Intermediate Root CA"
+                },
+                "validity": {
+                    "not_after": "2030-08-26T18:46:40Z",
+                    "not_before": "2022-06-10T18:46:40Z"
+                }
+            }
+        },
+        {
+            "label": "urn:c2pa:208039d0-00dc-418e-8b9e-a5717dbdd66d",
+            "assertions": {
+                "c2pa.ingredient.v3__1": {
+                    "dc:title": "Inference Parameters",
+                    "dc:format": "application/json",
+                    "relationship": "inputTo",
+                    "data": {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.embedded-data__1",
+                        "hash": "hsYkr+ajs39M/mIHi3DRgro8XZH/TGvmcb87qzJLk0c=",
+                        "alg": "sha256"
+                    },
+                    "dataTypes": [
+                        {
+                            "type": "c2pa.types.generator.parameters"
+                        }
+                    ]
+                },
+                "c2pa.hash.data": {
+                    "exclusions": [
+                        {
+                            "length": 9604,
+                            "start": 2
+                        }
+                    ],
+                    "alg": "sha256",
+                    "hash": "gZ74UDP8TT1Aoy5oW/dC6FKMw7pOQfY4HeLHQ7tV/N0=",
+                    "pad": "AAAAAA==",
+                    "pad2": ""
+                },
+                "c2pa.embedded-data__1": {
+                    "mediaType": "application/json",
+                    "data": "eyJzZWVkIjoxMTI0Mjc3MzUxNTgxMTcyNTQ2LCJndWlkYW5jZV9zY2FsZSI6NC4wfQ=="
+                },
+                "c2pa.embedded-data": {
+                    "mediaType": "text/plain",
+                    "data": "TWFrZSBhIHBob3RvIG9mIGEgd29tYW4="
+                },
+                "c2pa.ingredient.v3": {
+                    "dc:title": "Generation Prompt",
+                    "dc:format": "text/plain",
+                    "relationship": "inputTo",
+                    "data": {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.embedded-data",
+                        "hash": "gev6FzRtkpCsdbRkbFY7tyy2AAewdT1jqZdd7fI/SW0=",
+                        "alg": "sha256"
+                    },
+                    "dataTypes": [
+                        {
+                            "type": "c2pa.types.generator.prompt"
+                        }
+                    ],
+                    "description": "Text prompt provided to the model for this generation"
+                },
+                "c2pa.actions.v2": {
+                    "actions": [
+                        {
+                            "action": "c2pa.created",
+                            "softwareAgent": {
+                                "name": "Fooocus 2.5.0"
+                            },
+                            "digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia",
+                            "when": "2026-05-15T15:35:01.042807653Z",
+                            "parameters": {
+                                "ingredients": [
+                                    {
+                                        "url": "self#jumbf=c2pa.assertions/c2pa.ingredient.v3",
+                                        "hash": "D7npi09bgF82u0MnYqrveOCUKYnBBrq48A6v+d3Mpkc=",
+                                        "alg": "sha256"
+                                    },
+                                    {
+                                        "url": "self#jumbf=c2pa.assertions/c2pa.ingredient.v3__1",
+                                        "hash": "r7Q6CLkQdZxIK1TDajw4vTMYeS5LojNnIOh71rA2G08=",
+                                        "alg": "sha256"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "c2pa.ai-disclosure": {
+                    "modelType": "diffusion",
+                    "modelName": "Fooocus 2.5.0",
+                    "modelIdentifier": "https://github.com/lllyasviel/Fooocus",
+                    "humanOversightLevel": "PROMPT_GUIDED",
+                    "scientificDomain": [
+                        "cs.AI",
+                        "cs.CV"
+                    ]
+                }
+            },
+            "claim.v2": {
+                "instanceID": "uuid:e875070e-d0ee-40d0-9579-aa2019a02d2b",
+                "claim_generator_info": {
+                    "name": "Fooocus Spring Orchestrator 1.0"
+                },
+                "signature": "self#jumbf=/c2pa/urn:c2pa:208039d0-00dc-418e-8b9e-a5717dbdd66d/c2pa.signature",
+                "created_assertions": [
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.embedded-data",
+                        "hash": "f9eJLeUMkxjeT3OuMQtZ8ifLvBluKpo6mokJ/kvhj9U="
+                    },
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.ingredient.v3",
+                        "hash": "ihdckarWngYRcmCIZq81wd3HjvIgVEE2NsuU1zSTgv4="
+                    },
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.embedded-data__1",
+                        "hash": "6Aq+x4cABA6iTUXFg1L9L2EnctyVWQG3p+0iDEtopPw="
+                    },
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.ingredient.v3__1",
+                        "hash": "fkDOIKiXd+QDWvW/AvcAiQ/ecwaf6pInLwT8ZAvUkmc="
+                    },
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.actions.v2",
+                        "hash": "KP/unskhaa47UNC+UekudbxlNp7FUMuR+HT1LkxuTWI="
+                    },
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.ai-disclosure",
+                        "hash": "bLDomkVwL71Sk5sr1d18cxbh7lnRJ8QySKnTd9tZeFU="
+                    },
+                    {
+                        "url": "self#jumbf=c2pa.assertions/c2pa.hash.data",
+                        "hash": "tYUArXAJ5bvgE9bVFqK0JT59P+M1jTK7YDUZ422LSCs="
+                    }
+                ],
+                "gathered_assertions": [],
+                "dc:title": "AI Generated Asset",
+                "redacted_assertions": [],
+                "alg": "sha256"
+            },
+            "status": {
+                "signature": "claimSignature.validated",
+                "assertion": {
+                    "c2pa.ingredient.v3__1": "assertion.hashedURI.match",
+                    "c2pa.hash.data": "assertion.hashedURI.match",
+                    "c2pa.embedded-data__1": "assertion.hashedURI.match",
+                    "c2pa.embedded-data": "assertion.hashedURI.match",
+                    "c2pa.ingredient.v3": "assertion.hashedURI.match",
+                    "c2pa.actions.v2": "assertion.hashedURI.match",
+                    "c2pa.ai-disclosure": "assertion.hashedURI.match"
+                },
+                "content": "",
+                "trust": ""
+            },
+            "claim_signature": {
+                "signature_algorithm": "ES256",
+                "subject": {
+                    "ST": "CA",
+                    "CN": "C2PA Signer",
+                    "C": "US",
+                    "L": "Somewhere",
+                    "OU": "FOR TESTING_ONLY",
+                    "O": "C2PA Test Signing Cert"
+                },
+                "issuer": {
+                    "ST": "CA",
+                    "CN": "Intermediate CA",
+                    "C": "US",
+                    "L": "Somewhere",
+                    "OU": "FOR TESTING_ONLY",
+                    "O": "C2PA Test Intermediate Root CA"
+                },
+                "validity": {
+                    "not_after": "2030-08-26T18:46:40Z",
+                    "not_before": "2022-06-10T18:46:40Z"
+                }
+            }
+        }
+    ]
+}

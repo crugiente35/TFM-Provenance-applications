@@ -1,0 +1,57 @@
+# Java
+*.class
+*.jar
+*.war
+*.nar
+*.zip
+*.tar.gz
+*.rar
+*.log
+*.exe
+
+# Maven
+target/
+.classpath
+.project
+.settings/
+.m2/
+pom.xml.tag
+pom.xml.releaseBackup
+release.properties
+*.jar
+
+# IDE
+.vscode/
+.idea/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+.AppleDouble
+.LSOverride
+*.sublime-project
+*.sublime-workspace
+
+# Build
+out/
+dist/
+build/
+
+# Dependencies
+node_modules/
+vendor/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Temp files
+*.tmp
+*.bak
+~*
+*~
+
+# Caches
+.cache/
+.gradle/

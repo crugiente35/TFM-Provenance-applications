@@ -1,0 +1,51 @@
+{
+    "@context": [
+      "http://jpeg.org/jpegtrust/"
+    ],
+    "content": {},
+    "manifests": [
+      {
+        "claim": {
+            "alg": "sha256",
+            "claim_generator_info": [
+                {
+                    "name": "Joe's Camera App"
+                }
+            ],
+            "signature": "self#jumbf=c2pa/urn:uuid:F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4/c2pa.signature",
+            "dc:format": "image/jpeg",
+            "signature_status": "claimSignature.validated",
+            "assertion_status": {
+                "c2pa.hash.data": "assertion.hashedURI.match",
+                "c2pa.actions": "assertion.hashedURI.match"
+            }
+        },
+        "assertions": {
+            "c2pa.hash.data": {
+            "alg": "sha256",
+            "pad": "",
+            "hash": "Auxjtmax46cC2N3Y9aFmBO9Jfay8LEwJWzBUtZ0sUM8gA=",
+            "name": "JUMBF manifest",
+            "exclusions": [
+                {
+                "start": 9960,
+                "length": 4213
+                }
+            ]
+            },
+            "c2pa.actions": {
+            "actions": [
+                {
+                "action": "c2pa.created",
+                "when": "2023-02-11T09:00:00Z",
+                "softwareAgent": {
+                    "name": "Joe's Camera App"
+                },
+                "digitalSourceType": "https://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia"
+                }
+            ]
+            }
+        }
+        }
+    ]
+  }
