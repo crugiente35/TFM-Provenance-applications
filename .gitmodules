@@ -1,0 +1,6 @@
+[submodule "jpeg_trust_orchestrator/mipams-jpeg-trust"]
+	path = jpeg_trust_orchestrator/mipams-jpeg-trust
+	url = https://github.com/crugiente35/mipams-jpeg-trust.git
+[submodule "jpeg_trust_orchestrator/mipams-jpeg-systems"]
+	path = jpeg_trust_orchestrator/mipams-jpeg-systems
+	url = https://github.com/nickft/mipams-jpeg-systems.git
