@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image Metadata Analyzer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --surface2: #18181f;
+      --border: #2a2a35;
+      --accent: #7c6ef7;
+      --accent2: #f76e6e;
+      --text: #e8e8f0;
+      --muted: #6b6b80;
+      --success: #5ef7a0;
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Syne', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--mono);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* GRID NOISE TEXTURE */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(124,110,247,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124,110,247,.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      margin-bottom: 48px;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 3px 10px;
+      border-radius: 2px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-family: var(--sans);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+      color: var(--text);
+      letter-spacing: -.02em;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .subtitle {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: .02em;
+    }
+
+    /* ── UPLOAD PANEL ── */
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .panel-title {
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    /* Drop zone */
+    #drop-zone {
+      border: 1.5px dashed var(--border);
+      border-radius: 6px;
+      padding: 40px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+      position: relative;
+    }
+
+    #drop-zone:hover, #drop-zone.drag-over {
+      border-color: var(--accent);
+      background: rgba(124,110,247,.05);
+    }
+
+    #drop-zone input[type=file] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .drop-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .drop-label {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .drop-label strong { color: var(--accent); }
+
+    #file-name {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--success);
+      min-height: 18px;
+    }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: .1em;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* URL input */
+    .input-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    input[type=url] {
+      flex: 1;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 10px 14px;
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    input[type=url]:focus { border-color: var(--accent); }
+    input[type=url]::placeholder { color: var(--muted); }
+
+    /* Buttons */
+    .btn {
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .03em;
+      padding: 10px 22px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: opacity .15s, transform .1s;
+    }
+    .btn:active { transform: scale(.97); }
+    .btn:hover { opacity: .88; }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    .btn-success {
+      background: var(--success);
+      color: #000;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    /* ── LOADER ── */
+    #loader {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--accent);
+      margin-top: 16px;
+    }
+
+    .spinner {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(124,110,247,.3);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .6s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── RESULTS ── */
+    #results {
+      display: none;
+    }
+
+    .results-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: gap;
+      gap: 12px;
+    }
+
+    .results-title {
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--success);
+    }
+
+    /* ── JSON TREE (recursive) ── */
+    .json-tree {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      font-size: 12.5px;
+    }
+
+    .jtop-section { border-bottom: 1px solid var(--border); }
+    .jtop-section:last-child { border-bottom: none; }
+
+    .jtop-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 20px; cursor: pointer; user-select: none;
+      background: var(--surface); transition: background .15s;
+    }
+    .jtop-header:hover { background: var(--surface2); }
+    .jtop-header .jkey {
+      font-family: var(--sans); font-weight: 600; font-size: 13px;
+      color: var(--accent); flex: 1;
+    }
+    .jtop-header .jbadge {
+      font-size: 10px; color: var(--muted);
+      background: var(--surface2); border: 1px solid var(--border);
+      padding: 2px 8px; border-radius: 3px;
+    }
+    .jtop-header .jchevron {
+      color: var(--muted); font-size: 10px; transition: transform .2s;
+    }
+    .jtop-header.open .jchevron { transform: rotate(90deg); }
+
+    .jtop-body { display: none; padding: 4px 16px 14px; overflow-x: auto; }
+    .jtop-body.open { display: block; }
+
+    /* Recursive nodes */
+    .jnode { width: 100%; }
+
+    .jnode-row {
+      display: flex; align-items: baseline; gap: 6px;
+      padding: 2px 4px; border-radius: 3px; min-height: 22px;
+    }
+
+    .jnode-obj > .jnode-row { cursor: pointer; user-select: none; }
+    .jnode-obj > .jnode-row:hover { background: rgba(124,110,247,.07); }
+
+    .jnode-key {
+      color: var(--muted); white-space: nowrap;
+      flex-shrink: 0; min-width: 110px;
+    }
+    .jnode-key::after { content: ":"; margin-right: 4px; }
+    .jnode-key.idx { color: #6b6b9a; min-width: 28px; }
+
+    .jval-str  { color: var(--text); word-break: break-all; }
+    .jval-num  { color: #f0b97a; }
+    .jval-bool-t { color: var(--success); }
+    .jval-bool-f { color: var(--accent2); }
+    .jval-null { color: var(--muted); font-style: italic; }
+    .jval-preview { color: var(--muted); font-size: 11px; font-style: italic; }
+
+    .jnode-chevron {
+      font-size: 9px; color: var(--muted);
+      transition: transform .15s; flex-shrink: 0; width: 12px;
+    }
+    .jnode-obj.open > .jnode-row .jnode-chevron { transform: rotate(90deg); }
+
+    .jnode-children {
+      display: none;
+      padding-left: 18px;
+      border-left: 1px solid var(--border);
+      margin-left: 4px; margin-top: 2px; margin-bottom: 2px;
+    }
+    .jnode-obj.open > .jnode-children { display: block; }
+
+    /* Empty state */
+    .empty-msg {
+      color: var(--muted); font-size: 11px;
+      padding: 6px 4px; font-style: italic;
+    }
+
+    /* Error */
+    #error-box {
+      display: none;
+      background: rgba(247,110,110,.1);
+      border: 1px solid var(--accent2);
+      color: var(--accent2);
+      border-radius: 6px;
+      padding: 14px 18px;
+      font-size: 12px;
+      margin-top: 16px;
+    }
+
+    /* API Docs */
+    .api-docs {
+      margin-top: 48px;
+    }
+
+    .api-endpoint {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+    }
+    .api-endpoint:last-child { border-bottom: none; }
+
+    .method {
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 10px;
+      letter-spacing: .08em;
+      color: #000;
+      background: var(--success);
+      padding: 2px 8px;
+      border-radius: 3px;
+      min-width: 46px;
+      text-align: center;
+    }
+
+    .endpoint-path { color: var(--accent); }
+    .endpoint-desc { color: var(--muted); margin-left: auto; font-size: 11px; }
+
+    @media (max-width: 600px) {
+      .kv-grid { grid-template-columns: 1fr; }
+      .kv-key { border-bottom: none; padding-bottom: 0; color: var(--accent); font-size: 11px; }
+      .kv-val { border-bottom: 1px solid rgba(42,42,53,.5); }
+      .input-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="tag">v1.0 · local</div>
+    <h1>Image <span>Metadata</span><br>Analyzer</h1>
+    <p class="subtitle">Upload an image or paste a URL to extract its metadata.</p>
+  </header>
+
+  <div class="panel">
+    <p class="panel-title">// input</p>
+
+    <div id="drop-zone">
+      <input type="file" id="file-input" accept="image/*" />
+      <span class="drop-icon">⬡</span>
+      <p class="drop-label"><strong>Click</strong> or drag an image here</p>
+      <p class="drop-label" style="margin-top:4px;font-size:11px;">JPG, PNG, WEBP, TIFF, GIF…</p>
+    </div>
+    <div id="file-name"></div>
+
+    <div class="divider">or URL</div>
+
+    <div class="input-row">
+      <input type="url" id="url-input" placeholder="https://example.com/image.jpg" />
+    </div>
+
+    <div id="loader">
+      <div class="spinner"></div>
+      <span>Processing image…</span>
+    </div>
+
+    <div id="error-box"></div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="analyze()">Analyze</button>
+      <button class="btn btn-outline" onclick="reset()">Clear</button>
+    </div>
+  </div>
+
+  <div id="results">
+    <div class="results-header">
+      <span class="results-title">✓ Analysis complete</span>
+      <button class="btn btn-success" id="download-btn">↓ Download JSON</button>
+    </div>
+    <div class="json-tree" id="json-tree"></div>
+  </div>
+
+  <div class="api-docs panel" style="margin-top:48px;">
+    <p class="panel-title">// API endpoints</p>
+    <div class="json-tree">
+      <div class="api-endpoint"><span class="method">POST</span><span class="endpoint-path">/api/full</span><span class="endpoint-desc">Full C2PA JSON</span></div>
+      <div class="api-endpoint"><span class="method">POST</span><span class="endpoint-path">/api/summary</span><span class="endpoint-desc">Summary: validity, status, embedded</span></div>
+      <div class="api-endpoint"><span class="method">POST</span><span class="endpoint-path">/api/validation</span><span class="endpoint-desc">Detailed validation result</span></div>
+      <div class="api-endpoint"><span class="method">POST</span><span class="endpoint-path">/api/active-manifest</span><span class="endpoint-desc">Active manifest (claims, signature…)</span></div>
+      <div class="api-endpoint"><span class="method">POST</span><span class="endpoint-path">/api/manifests</span><span class="endpoint-desc">All manifests (standard)</span></div>
+      <div class="api-endpoint"><span class="method">POST</span><span class="endpoint-path">/api/manifests/detailed</span><span class="endpoint-desc">Manifests in detailed_json format</span></div>
+      <div class="api-endpoint"><span class="method">POST</span><span class="endpoint-path">/process</span><span class="endpoint-desc">Web: Full JSON</span></div>
+      <div class="api-endpoint"><span class="method">POST</span><span class="endpoint-path">/download</span><span class="endpoint-desc">Direct download _c2pa.json</span></div>
+    </div>
+    <p style="margin-top:14px;font-size:11px;color:var(--muted);">
+      Parameters: <code style="color:var(--accent)">image</code> (multipart file) or <code style="color:var(--accent)">url</code> (form field).
+    </p>
+  </div>
+
+</div>
+
+<script>
+  let currentData = null;
+  let currentFile  = null;
+
+  // ── Drop zone ──
+  const dropZone  = document.getElementById('drop-zone');
+  const fileInput = document.getElementById('file-input');
+
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault(); dropZone.classList.remove('drag-over');
+    const f = e.dataTransfer.files[0];
+    if (f) { currentFile = f; document.getElementById('file-name').textContent = '✓ ' + f.name; }
+  });
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files[0]) {
+      currentFile = fileInput.files[0];
+      document.getElementById('file-name').textContent = '✓ ' + currentFile.name;
+    }
+  });
+
+  // ── Analyze ──
+  async function analyze() {
+    const url = document.getElementById('url-input').value.trim();
+    if (!currentFile && !url) { showError('Select an image or enter a URL.'); return; }
+    setLoading(true); hideError(); hideResults();
+    try {
+      const fd = new FormData();
+      if (currentFile) fd.append('image', currentFile);
+      else             fd.append('url', url);
+      const res  = await fetch('/process', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Unknown error');
+      currentData = data;
+      renderResults(data);
+      setupDownload(currentFile, url);
+    } catch (e) { showError(e.message); }
+    finally     { setLoading(false); }
+  }
+
+  // ── Top-level renderer ──
+  const TOP_LABELS = {
+    processed_at: 'Processed at',
+    filename:     'File',
+    mime_type:    'MIME type',
+    size_bytes:   'Size (bytes)',
+    c2pa:         'C2PA',
+  };
+
+  function renderResults(data) {
+    const tree = document.getElementById('json-tree');
+    tree.innerHTML = '';
+
+    for (const [key, val] of Object.entries(data)) {
+      const label   = TOP_LABELS[key] || key;
+      const isOpen  = (key === 'c2pa');
+      const section = makeTopSection(key, label, val, isOpen);
+      tree.appendChild(section);
+    }
+
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function makeTopSection(key, label, val, defaultOpen) {
+    const section = document.createElement('div');
+    section.className = 'jtop-section';
+
+    const isComplex = (typeof val === 'object' && val !== null);
+    const count     = isComplex ? (Array.isArray(val) ? val.length : Object.keys(val).length) : 1;
+    const badgeTxt  = isComplex
+      ? (Array.isArray(val) ? `${count} item${count!==1?'s':''}` : `${count} field${count!==1?'s':''}`)
+      : '';
+
+    const header = document.createElement('div');
+    header.className = 'jtop-header' + (defaultOpen ? ' open' : '');
+    header.innerHTML = `
+      <span class="jkey">${label}</span>
+      ${badgeTxt ? `<span class="jbadge">${badgeTxt}</span>` : ''}
+      <span class="jchevron">▶</span>
+    `;
+
+    const body = document.createElement('div');
+    body.className = 'jtop-body' + (defaultOpen ? ' open' : '');
+
+    if (!isComplex) {
+      // scalar at top level
+      const row = document.createElement('div');
+      row.className = 'jnode-row';
+      row.appendChild(makeScalarEl(val));
+      body.appendChild(row);
+    } else if (count === 0) {
+      body.innerHTML = '<p class="empty-msg">No data</p>';
+    } else {
+      // render children recursively
+      const entries = Array.isArray(val) ? val.map((v,i) => [String(i), v]) : Object.entries(val);
+      for (const [k, v] of entries) {
+        body.appendChild(makeNode(k, v, Array.isArray(val)));
+      }
+    }
+
+    header.addEventListener('click', () => {
+      header.classList.toggle('open');
+      body.classList.toggle('open');
+    });
+
+    section.appendChild(header);
+    section.appendChild(body);
+    return section;
+  }
+
+  // ── Recursive node builder ──
+  function makeNode(key, val, isArrayParent = false) {
+    const isComplex = (typeof val === 'object' && val !== null);
+
+    if (!isComplex) {
+      // Simple leaf row: key + scalar value
+      const node = document.createElement('div');
+      node.className = 'jnode';
+      const row = document.createElement('div');
+      row.className = 'jnode-row';
+      const keyEl = document.createElement('span');
+      keyEl.className = 'jnode-key' + (isArrayParent ? ' idx' : '');
+      keyEl.textContent = key;
+      row.appendChild(keyEl);
+      row.appendChild(makeScalarEl(val));
+      node.appendChild(row);
+      return node;
+    }
+
+    // Complex: collapsible
+    const node = document.createElement('div');
+    node.className = 'jnode jnode-obj';
+
+    const count   = Array.isArray(val) ? val.length : Object.keys(val).length;
+    const preview = Array.isArray(val) ? `[ ${count} ]` : `{ ${count} }`;
+
+    const row = document.createElement('div');
+    row.className = 'jnode-row';
+
+    const chevron = document.createElement('span');
+    chevron.className = 'jnode-chevron';
+    chevron.textContent = '▶';
+
+    const keyEl = document.createElement('span');
+    keyEl.className = 'jnode-key' + (isArrayParent ? ' idx' : '');
+    keyEl.textContent = key;
+
+    const previewEl = document.createElement('span');
+    previewEl.className = 'jval-preview';
+    previewEl.textContent = preview;
+
+    row.appendChild(chevron);
+    row.appendChild(keyEl);
+    row.appendChild(previewEl);
+
+    const children = document.createElement('div');
+    children.className = 'jnode-children';
+
+    if (count === 0) {
+      children.innerHTML = '<span class="empty-msg">empty</span>';
+    } else {
+      const entries = Array.isArray(val) ? val.map((v,i) => [String(i), v]) : Object.entries(val);
+      for (const [k, v] of entries) {
+        children.appendChild(makeNode(k, v, Array.isArray(val)));
+      }
+    }
+
+    row.addEventListener('click', () => node.classList.toggle('open'));
+
+    node.appendChild(row);
+    node.appendChild(children);
+    return node;
+  }
+
+  function makeScalarEl(val) {
+    const el = document.createElement('span');
+    if (val === null || val === undefined) {
+      el.className = 'jval-null'; el.textContent = 'null';
+    } else if (typeof val === 'boolean') {
+      el.className = val ? 'jval-bool-t' : 'jval-bool-f';
+      el.textContent = String(val);
+    } else if (typeof val === 'number') {
+      el.className = 'jval-num'; el.textContent = String(val);
+    } else {
+      el.className = 'jval-str'; el.textContent = String(val);
+    }
+    return el;
+  }
+
+  // ── Download ──
+  function setupDownload(file, url) {
+    document.getElementById('download-btn').onclick = async () => {
+      const fd = new FormData();
+      if (file) fd.append('image', file); else fd.append('url', url);
+      const res  = await fetch('/download', { method: 'POST', body: fd });
+      const blob = await res.blob();
+      const a    = document.createElement('a');
+      a.href     = URL.createObjectURL(blob);
+      a.download = res.headers.get('Content-Disposition')
+        ?.split('filename=')[1]?.replace(/"/g, '') || 'metadata.json';
+      a.click();
+    };
+  }
+
+  function setLoading(on) { document.getElementById('loader').style.display = on ? 'flex' : 'none'; }
+  function showError(msg) {
+    const b = document.getElementById('error-box');
+    b.textContent = '✗ ' + msg; b.style.display = 'block';
+  }
+  function hideError()   { document.getElementById('error-box').style.display = 'none'; }
+  function hideResults() { document.getElementById('results').style.display = 'none'; }
+  function reset() {
+    currentFile = null; currentData = null;
+    document.getElementById('file-input').value = '';
+    document.getElementById('file-name').textContent = '';
+    document.getElementById('url-input').value = '';
+    hideError(); hideResults();
+  }
+</script>
+</body>
+</html>
