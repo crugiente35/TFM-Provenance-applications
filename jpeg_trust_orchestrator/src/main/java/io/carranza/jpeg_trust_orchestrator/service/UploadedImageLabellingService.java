@@ -10,7 +10,6 @@ import org.mipams.jpegtrust.entities.assertions.Assertion;
 import org.mipams.jpegtrust.entities.assertions.BindingAssertion;
 import org.mipams.jpegtrust.entities.assertions.actions.ActionAssertion;
 import org.mipams.jpegtrust.entities.assertions.actions.ActionsAssertion;
-import org.mipams.jpegtrust.entities.assertions.actions.GeneratorInfoMap;
 import org.mipams.jpegtrust.entities.assertions.enums.ActionChoice;
 import org.mipams.jpegtrust.entities.assertions.ingredients.IngredientAssertion;
 import org.mipams.jpegtrust.entities.HashedUriReference;
@@ -182,9 +181,9 @@ public JumbfBox labelUploadedAsset(AiGenerationRecipe recipe) throws Exception {
         if (!actionIngredients.isEmpty()) {
             ActionAssertion actionOpened = new ActionAssertion();
             actionOpened.setAction(ActionChoice.C2PA_OPENED.getValue()); 
-            
-            GeneratorInfoMap agentOpened = new GeneratorInfoMap();
-            agentOpened.setName("JPEG Trust Orchestrator v1.0");
+
+            Map<String, String> agentOpened = new HashMap<>();
+            agentOpened.put("name", "JPEG Trust Orchestrator v1.0");
             actionOpened.setSoftwareAgent(agentOpened);
             
             actionOpened.setWhen(DateTimeFormatter.ISO_INSTANT.format(Instant.now()));
@@ -199,10 +198,10 @@ public JumbfBox labelUploadedAsset(AiGenerationRecipe recipe) throws Exception {
         ActionAssertion actionConverted = new ActionAssertion();
         actionConverted.setAction(ActionChoice.C2PA_CONVERTED.getValue());
         
-        GeneratorInfoMap agentConverted = new GeneratorInfoMap();
-        agentConverted.setName("JPEG Trust Orchestrator v1.0");
+        Map<String, String> agentConverted = new HashMap<>();
+        agentConverted.put("name", "JPEG Trust Orchestrator v1.0");
         actionConverted.setSoftwareAgent(agentConverted);
-        
+
         actionConverted.setDescription("Converted to JPEG Trust Standard Manifest");
         actionConverted.setWhen(DateTimeFormatter.ISO_INSTANT.format(Instant.now()));
         actionList.add(actionConverted);

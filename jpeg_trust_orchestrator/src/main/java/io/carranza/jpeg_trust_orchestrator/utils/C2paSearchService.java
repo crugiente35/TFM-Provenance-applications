@@ -24,7 +24,6 @@ import org.springframework.http.MediaType;
 import org.mipams.jpegtrust.entities.HashedUriReference;
 import org.mipams.jpegtrust.entities.assertions.Assertion;
 import org.mipams.jpegtrust.entities.assertions.actions.ActionAssertion;
-import org.mipams.jpegtrust.entities.assertions.actions.GeneratorInfoMap;
 import org.mipams.jpegtrust.entities.assertions.enums.ActionChoice;
 import org.mipams.jpegtrust.entities.assertions.BindingAssertion;
 import org.mipams.jpegtrust.entities.validation.ValidationCode;
@@ -224,7 +223,7 @@ private Map<String, Object> extractValidationResults(JumbfBox box) throws Except
         promptIngredient.setData(addEmbededData(promptData, dataDigest));
 
         AssetType assetType = new AssetType();
-        assetType.setType(AssetTypeChoice.C2PA_TYPES_GENERATOR_PROMPT);
+        assetType.setType("c2pa.types.generator.prompt");
         promptIngredient.setDataTypes(List.of(assetType));
 
         addExistingAssertionUnique(promptIngredient, existingAssertions);
@@ -262,9 +261,10 @@ private Map<String, Object> extractValidationResults(JumbfBox box) throws Except
         ActionAssertion actionTranscoded = new ActionAssertion();
         actionTranscoded.setAction(ActionChoice.C2PA_TRANSCODED.getValue());
         actionTranscoded.setWhen(DateTimeFormatter.ISO_INSTANT.format(Instant.now()));
-        
-        GeneratorInfoMap agentTranscoded = new GeneratorInfoMap();
-        agentTranscoded.setName("JPEG Trust Orchestrator v1.0");
+
+
+        Map<String, String> agentTranscoded = new HashMap<>();
+        agentTranscoded.put("name", "JPEG Trust Orchestrator v1.0");
         actionTranscoded.setSoftwareAgent(agentTranscoded);
         
         actionTranscoded.setDescription("Transcoded from " + originalFormat + " to " + newFormat);

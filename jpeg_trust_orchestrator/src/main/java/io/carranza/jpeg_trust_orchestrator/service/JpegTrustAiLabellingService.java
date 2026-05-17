@@ -7,7 +7,6 @@ import io.carranza.jpeg_trust_orchestrator.security.CryptoSignerService;
 import org.mipams.jumbf.entities.JumbfBox;
 import org.mipams.jpegtrust.entities.assertions.actions.ActionAssertion;
 import org.mipams.jpegtrust.entities.assertions.actions.ActionsAssertion;
-import org.mipams.jpegtrust.entities.assertions.actions.GeneratorInfoMap;
 import org.mipams.jpegtrust.entities.assertions.enums.ActionChoice;
 import org.mipams.jpegtrust.entities.assertions.Assertion;
 import org.mipams.jpegtrust.entities.assertions.BindingAssertion;
@@ -23,7 +22,6 @@ import org.mipams.jpegtrust.entities.assertions.tfm.AiDisclosureAssertion;
 import org.mipams.jpegtrust.entities.assertions.tfm.EmbeddedDataAssertion;
 import org.mipams.jpegtrust.entities.assertions.ingredients.IngredientAssertion;
 import org.mipams.jpegtrust.entities.assertions.ingredients.IngredientAssertionV1;
-import org.mipams.jpegtrust.entities.assertions.enums.AssetTypeChoice;
 import org.mipams.jpegtrust.entities.assertions.AssetType;
 import org.mipams.jpegtrust.entities.HashedUriReference;
 import io.carranza.jpeg_trust_orchestrator.utils.C2paSearchService;
@@ -289,7 +287,7 @@ private IngredientAssertion addInferenceAssertions(List<Assertion> existingAsser
         // -----------------------------------
 
         AssetType assetType = new AssetType();
-        assetType.setType(AssetTypeChoice.C2PA_TYPES_GENERATOR_PARAMETERS);
+        assetType.setType("c2pa.types.generator.parameters");
         ingredient.setDataTypes(List.of(assetType));
 
         c2paSearchService.addExistingAssertionUnique(ingredient, existingAssertions);
@@ -328,8 +326,8 @@ private IngredientAssertion addInferenceAssertions(List<Assertion> existingAsser
         actionCreated.setAction(ActionChoice.C2PA_CREATED.getValue());
         actionCreated.setWhen(DateTimeFormatter.ISO_INSTANT.format(Instant.now()));
         
-        GeneratorInfoMap agentCreated = new GeneratorInfoMap();
-        agentCreated.setName("Fooocus 2.5.0");
+        Map<String, String> agentCreated = new HashMap<>();
+        agentCreated.put("name", "Fooocus 2.5.0");
         actionCreated.setSoftwareAgent(agentCreated);
         
         actionCreated.setDigitalSourceType("http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia");

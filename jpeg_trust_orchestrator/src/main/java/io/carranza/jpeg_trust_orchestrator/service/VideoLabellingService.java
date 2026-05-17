@@ -28,7 +28,6 @@ import org.mipams.jpegtrust.entities.assertions.BindingAssertionBMFF.XPathExclus
 import org.mipams.jpegtrust.entities.assertions.BindingAssertionBMFF.XPathData;
 import org.mipams.jpegtrust.entities.assertions.actions.ActionAssertion;
 import org.mipams.jpegtrust.entities.assertions.actions.ActionsAssertion;
-import org.mipams.jpegtrust.entities.assertions.actions.GeneratorInfoMap;
 import org.mipams.jpegtrust.entities.assertions.enums.ActionChoice;
 import org.mipams.jpegtrust.entities.assertions.ingredients.IngredientAssertion;
 import org.mipams.jpegtrust.entities.HashedUriReference;
@@ -146,8 +145,8 @@ public class VideoLabellingService {
             List<ActionAssertion> actionList = new ArrayList<>();
             ActionAssertion actionOpened = new ActionAssertion();
             actionOpened.setAction(ActionChoice.C2PA_OPENED.getValue());
-            GeneratorInfoMap agentOpened = new GeneratorInfoMap();
-            agentOpened.setName(orchestratorName);
+            Map<String, String> agentOpened = new HashMap<>();
+            agentOpened.put("name", orchestratorName);
             actionOpened.setSoftwareAgent(agentOpened);
             actionOpened.setWhen(DateTimeFormatter.ISO_INSTANT.format(Instant.now()));
             actionOpened.setIngredients(actionIngredients);
@@ -155,8 +154,8 @@ public class VideoLabellingService {
 
             ActionAssertion actionConverted = new ActionAssertion();
             actionConverted.setAction(ActionChoice.C2PA_CONVERTED.getValue());
-            GeneratorInfoMap agentConverted = new GeneratorInfoMap();
-            agentConverted.setName(orchestratorName);
+            Map<String, String> agentConverted = new HashMap<>();
+            agentConverted.put("name", orchestratorName);
             actionConverted.setSoftwareAgent(agentConverted);
             actionConverted.setDescription("Converted to JPEG Trust Standard Manifest");
             actionConverted.setWhen(DateTimeFormatter.ISO_INSTANT.format(Instant.now()));
