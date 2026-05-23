@@ -124,6 +124,34 @@
     .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-md); padding-bottom: 10px; margin-bottom: 15px; }
     .modal-close { background: transparent; border: none; font-size: 24px; cursor: pointer; color: var(--text-2); }
     .modal-close:hover { color: var(--text); }
+
+    /* ── TrustIndicatorSet Panel ── */
+    .trust-panel { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); margin-top: 1rem; overflow: hidden; }
+    .trust-panel-header { padding: 10px 1.25rem; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .trust-panel-title { font-size: 11px; font-weight: 600; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.06em; display: flex; align-items: center; gap: 6px; }
+    .trust-panel-title::before { content: '🔐'; font-size: 13px; }
+    .trust-panel-actions { display: flex; gap: 6px; }
+    .trust-panel-body { padding: 0.75rem 1.25rem 1rem; }
+
+    .trust-accordion { border: 0.5px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 6px; overflow: hidden; }
+    .trust-accordion:last-child { margin-bottom: 0; }
+    .trust-accordion-btn { width: 100%; background: var(--surface-2); border: none; padding: 8px 12px; font-size: 12px; font-weight: 600; color: var(--text); text-align: left; cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-family: inherit; gap: 8px; }
+    .trust-accordion-btn:hover { background: var(--bg); }
+    .trust-accordion-btn .acc-key { color: var(--text-2); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; flex: 1; }
+    .trust-accordion-btn .acc-summary { font-size: 11px; color: var(--text-3); font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
+    .trust-accordion-btn .acc-chevron { font-size: 10px; color: var(--text-3); transition: transform 0.2s; flex-shrink: 0; }
+    .trust-accordion-btn.open .acc-chevron { transform: rotate(180deg); }
+    .trust-accordion-content { display: none; padding: 10px 12px; background: var(--surface); border-top: 0.5px solid var(--border); font-size: 12px; line-height: 1.6; }
+    .trust-accordion-content.open { display: block; }
+    .trust-kv { display: flex; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
+    .trust-kv-key { color: var(--text-3); font-size: 11px; min-width: 120px; flex-shrink: 0; }
+    .trust-kv-val { color: var(--text); font-size: 11px; word-break: break-all; }
+    .trust-kv-val.val-true { color: var(--success-fg); font-weight: 600; }
+    .trust-kv-val.val-false { color: var(--danger-fg); font-weight: 600; }
+    .trust-kv-val.val-null { color: var(--text-3); font-style: italic; }
+    .trust-raw-toggle { font-size: 11px; color: var(--text-3); cursor: pointer; margin-top: 8px; display: inline-block; border-bottom: 0.5px dashed var(--border-md); }
+    .trust-raw-toggle:hover { color: var(--text); }
+    .trust-raw-pre { font-size: 11px; background: var(--surface-2); border-radius: var(--radius-sm); padding: 8px 10px; margin-top: 6px; white-space: pre-wrap; word-break: break-all; color: var(--text-2); display: none; }
   </style>
 </head>
 <body>
@@ -178,7 +206,18 @@
         <button class="btn-sm" id="btn-copy-prompt" onclick="copyPrompt()">Copy Prompt</button>
       </div>
     </div>
-  </div>
+
+    <!-- TrustIndicatorSet panel (Images) -->
+    <div id="trust-panel-images" class="trust-panel" style="display:none;">
+      <div class="trust-panel-header">
+        <span class="trust-panel-title">Trust Indicator Set</span>
+        <div class="trust-panel-actions">
+          <button class="btn-sm" onclick="downloadTrustJson('images')">Download JSON</button>
+        </div>
+      </div>
+      <div class="trust-panel-body" id="trust-body-images"></div>
+    </div>
+  </div><!-- end section-images -->
 
   <div id="section-video" class="section">
     <div class="warn-banner">
@@ -211,6 +250,17 @@
           The media will appear here
         </div>
       </div>
+    </div>
+
+    <!-- TrustIndicatorSet panel (Video) -->
+    <div id="trust-panel-video" class="trust-panel" style="display:none;">
+      <div class="trust-panel-header">
+        <span class="trust-panel-title">Trust Indicator Set</span>
+        <div class="trust-panel-actions">
+          <button class="btn-sm" onclick="downloadTrustJson('video')">Download JSON</button>
+        </div>
+      </div>
+      <div class="trust-panel-body" id="trust-body-video"></div>
     </div>
   </div>
 
@@ -553,6 +603,10 @@
       fetch(finalImageData).then(r => r.blob()).then(blob => { currentBlob = blob; });
       document.getElementById('badge-signed').style.display = '';
       document.getElementById('img-actions').style.display = 'flex';
+      // Render TrustIndicatorSet
+      if (data.validationJson) {
+        renderTrustPanel('images', data.validationJson);
+      }
     })
     .catch(err => { showError(err.message); })
     .finally(() => { btn.disabled = false; btn.textContent = originalBtnText; });
@@ -578,31 +632,155 @@
     }).catch(() => {});
   }
 
+  // --- TRUST INDICATOR SET PANEL ---
+  const trustJsonStore = { images: null, video: null };
+
+  function renderTrustPanel(scope, jsonStr) {
+    let data;
+    try { data = typeof jsonStr === 'string' ? JSON.parse(jsonStr) : jsonStr; }
+    catch(e) { data = { raw: jsonStr }; }
+    trustJsonStore[scope] = data;
+
+    const panel = document.getElementById('trust-panel-' + scope);
+    const body  = document.getElementById('trust-body-' + scope);
+    body.innerHTML = '';
+    buildAccordions(body, data);
+    panel.style.display = '';
+  }
+
+  function buildAccordions(container, obj) {
+    if (typeof obj !== 'object' || obj === null) {
+      const pre = document.createElement('pre');
+      pre.className = 'trust-raw-pre'; pre.style.display = 'block';
+      pre.textContent = String(obj);
+      container.appendChild(pre);
+      return;
+    }
+    const entries = Object.entries(obj);
+    if (entries.length === 0) {
+      container.innerHTML = '<span style="font-size:12px;color:var(--text-3);font-style:italic;">Empty</span>';
+      return;
+    }
+    entries.forEach(([key, val]) => {
+      const isComplex = val !== null && typeof val === 'object';
+      const acc = document.createElement('div');
+      acc.className = 'trust-accordion';
+
+      const summaryText = isComplex
+        ? (Array.isArray(val) ? `[${val.length} items]` : `{${Object.keys(val).length} fields}`)
+        : (val === null ? 'null' : String(val));
+
+      const btn = document.createElement('button');
+      btn.className = 'trust-accordion-btn';
+      btn.innerHTML = `<span class="acc-key">${escHtml(key)}</span><span class="acc-summary">${escHtml(summaryText)}</span><span class="acc-chevron">▼</span>`;
+
+      const content = document.createElement('div');
+      content.className = 'trust-accordion-content';
+
+      if (isComplex) {
+        buildKVContent(content, val);
+      } else {
+        const kv = document.createElement('div'); kv.className = 'trust-kv';
+        const vEl = document.createElement('span');
+        vEl.className = 'trust-kv-val' + (val === true ? ' val-true' : val === false ? ' val-false' : val === null ? ' val-null' : '');
+        vEl.textContent = val === null ? 'null' : String(val);
+        kv.appendChild(vEl); content.appendChild(kv);
+      }
+
+      btn.addEventListener('click', () => {
+        const open = content.classList.toggle('open');
+        btn.classList.toggle('open', open);
+      });
+
+      acc.appendChild(btn); acc.appendChild(content);
+      container.appendChild(acc);
+    });
+  }
+
+  function buildKVContent(container, val) {
+    if (Array.isArray(val)) {
+      val.forEach((item, i) => {
+        if (typeof item === 'object' && item !== null) {
+          const lbl = document.createElement('div');
+          lbl.style.cssText = 'font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.05em;margin:6px 0 4px;';
+          lbl.textContent = `Item ${i + 1}`;
+          container.appendChild(lbl);
+          buildKVContent(container, item);
+        } else {
+          addKV(container, `[${i}]`, item);
+        }
+      });
+    } else {
+      Object.entries(val).forEach(([k, v]) => {
+        if (typeof v === 'object' && v !== null) {
+          addKV(container, k, Array.isArray(v) ? `[${v.length} items]` : `{${Object.keys(v).length} fields}`, true);
+          const toggle = document.createElement('span');
+          toggle.className = 'trust-raw-toggle'; toggle.textContent = '▶ expand';
+          const pre = document.createElement('pre');
+          pre.className = 'trust-raw-pre'; pre.textContent = JSON.stringify(v, null, 2);
+          toggle.addEventListener('click', () => {
+            const shown = pre.style.display === 'block';
+            pre.style.display = shown ? 'none' : 'block';
+            toggle.textContent = shown ? '▶ expand' : '▼ collapse';
+          });
+          container.appendChild(toggle); container.appendChild(pre);
+        } else {
+          addKV(container, k, v);
+        }
+      });
+    }
+  }
+
+  function addKV(container, k, v, muted) {
+    const kv = document.createElement('div'); kv.className = 'trust-kv';
+    const kEl = document.createElement('span'); kEl.className = 'trust-kv-key'; kEl.textContent = k;
+    const vEl = document.createElement('span');
+    vEl.className = 'trust-kv-val' + (v === true ? ' val-true' : v === false ? ' val-false' : v === null ? ' val-null' : '') + (muted ? '' : '');
+    vEl.textContent = v === null ? 'null' : String(v);
+    if (muted) vEl.style.color = 'var(--text-3)';
+    kv.appendChild(kEl); kv.appendChild(vEl);
+    container.appendChild(kv);
+  }
+
+  function escHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function downloadTrustJson(scope) {
+    const data = trustJsonStore[scope];
+    if (!data) return;
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `trust_indicator_set_${scope}_${Date.now()}.json`;
+    document.body.appendChild(a); a.click();
+    URL.revokeObjectURL(url); a.remove();
+  }
+
   // --- VIDEO LOGIC ---
-  let videoBase64Data = null; 
+  let videoBase64Data = null;
   let labelledVideoBlob = null;
   let currentMediaMime = 'video/mp4';
-  let currentMediaExt = '.mp4';
+  let currentMediaExt  = '.mp4';
 
   document.getElementById('video-upload').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (!file) { videoBase64Data = null; return; }
     currentMediaMime = file.type || (file.name.endsWith('.mp3') ? 'audio/mpeg' : 'video/mp4');
-    currentMediaExt = file.name.endsWith('.mp3') ? '.mp3' : '.mp4';
-    
+    currentMediaExt  = file.name.endsWith('.mp3') ? '.mp3' : '.mp4';
     const reader = new FileReader();
     reader.onload = function(evt) { videoBase64Data = evt.target.result; };
     reader.readAsDataURL(file);
   });
 
   function generateVideo() {
-    const btn = document.getElementById('btn-video-gen');
-    const errMsg = document.getElementById('video-error-msg');
+    const btn       = document.getElementById('btn-video-gen');
+    const errMsg    = document.getElementById('video-error-msg');
     const videoArea = document.getElementById('video-area');
 
     if (!videoBase64Data) {
-      errMsg.textContent = 'Please upload a media file (MP4 / MP3) first.'; errMsg.style.display = 'block';
-      return;
+      errMsg.textContent = 'Please upload a media file (MP4 / MP3) first.';
+      errMsg.style.display = 'block'; return;
     }
 
     const prompt = document.getElementById('video-prompt').value.trim();
@@ -619,9 +797,9 @@
     })
     .then(res => { if (!res.ok) throw new Error('Server error (' + res.status + ')'); return res.json(); })
     .then(data => {
-      const rawBase64 = data.labelledVideoBase64.includes(',') 
-      ? data.labelledVideoBase64.split(',')[1] 
-      : data.labelledVideoBase64;
+      const rawBase64 = data.labelledVideoBase64.includes(',')
+        ? data.labelledVideoBase64.split(',')[1]
+        : data.labelledVideoBase64;
       const binStr = atob(rawBase64);
       const bytes = new Uint8Array(binStr.length);
       for (let i = 0; i < binStr.length; i++) bytes[i] = binStr.charCodeAt(i);
@@ -629,12 +807,18 @@
       const mediaUrl = URL.createObjectURL(labelledVideoBlob);
 
       if (currentMediaMime.includes('audio') || currentMediaExt === '.mp3') {
-          videoArea.innerHTML = `<audio controls src="${mediaUrl}" style="width: 80%;"></audio>`;
+        videoArea.innerHTML = `<audio controls src="${mediaUrl}" style="width:80%;"></audio>`;
       } else {
-          videoArea.innerHTML = `<video controls src="${mediaUrl}"></video>`;
+        videoArea.innerHTML = `<video controls src="${mediaUrl}"></video>`;
+      }
+      if (data.validationJson) {
+        renderTrustPanel('video', data.validationJson);
       }
     })
-    .catch(err => { errMsg.textContent = err.message; errMsg.style.display = 'block'; videoArea.innerHTML = '<div class="placeholder"><div class="placeholder-icon">🎬</div>Error</div>'; })
+    .catch(err => {
+      errMsg.textContent = err.message; errMsg.style.display = 'block';
+      videoArea.innerHTML = '<div class="placeholder"><div class="placeholder-icon">🎬</div>Error</div>';
+    })
     .finally(() => { btn.disabled = false; btn.textContent = originalText; });
   }
 </script>
