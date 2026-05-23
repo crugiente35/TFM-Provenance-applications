@@ -155,7 +155,24 @@ public class OrchestratorController {
             
             // 6. Colocarlo en la respuesta con la llave exacta que espera el frontend
             response.put("labelledVideoBase64", labelledBase64);
-            
+
+            // 7. Intentar parsear y validar el C2PA del video etiquetado para devolver el TrustIndicatorSet
+            Path tempVideoPath = null;
+            try {
+                tempVideoPath = Files.createTempFile("video_inspect_", ".mp4");
+                Files.write(tempVideoPath, labelledBytes);
+                List<JumbfBox> parsedBoxes = jpegCodestreamParser.parseMetadataFromFile(tempVideoPath.toString());
+                if (parsedBoxes != null && !parsedBoxes.isEmpty()) {
+                    TrustIndicatorSet set = manifestStoreConsumer.validate(parsedBoxes.get(0), tempVideoPath.toString());
+                    response.put("validationJson", objectMapper.writeValueAsString(set));
+                    saveLogToFile("[VIDEO] TrustIndicatorSet generado: " + set.toString());
+                }
+            } catch (Exception valEx) {
+                saveLogToFile("[VIDEO WARN] No se pudo generar TrustIndicatorSet para el video: " + valEx.getMessage());
+            } finally {
+                try { if (tempVideoPath != null) Files.deleteIfExists(tempVideoPath); } catch (Exception ignored) {}
+            }
+
             saveLogToFile("[VIDEO] Etiquetado C2PA exitoso para media con prompt: " + prompt);
             return ResponseEntity.ok(response);
 
