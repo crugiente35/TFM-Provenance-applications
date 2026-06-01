@@ -58,7 +58,7 @@ This server provides a complete image analysis solution with:
 1. **Clone the repository**:
 ```bash
 git clone https://github.com/crugiente35/TFM-Provenance-applications.git
-cd TFM-Provenance-applications/java_server_C2PA
+cd TFM-Provenance-applications/python_server_C2PA
 ```
 
 2. **Create virtual environment** (optional but recommended):
@@ -96,7 +96,7 @@ Output should show:
 ## Project Structure
 
 ```
-java_server_C2PA/
+python_server_C2PA/
 ├── app.py                      # Main Flask application
 ├── requirements.txt            # Python dependencies
 ├── README.md                   # This file

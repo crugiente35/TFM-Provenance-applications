@@ -47,7 +47,7 @@ cd TFM-Provenance-applications/c2pa_extension_c2pa
 
 3. **Start the backend server** (from project root):
 ```bash
-cd java_server_C2PA
+cd python_server_C2PA
 pip install -r requirements.txt
 python app.py
 # Server will run on http://localhost:5000
@@ -172,7 +172,7 @@ const API_BASE = "http://localhost:5000";
 - **Input**: FormData with `url` parameter (image URL)
 - **Output**: JSON with C2PA metadata
 
-See [Java Server C2PA](../java_server_C2PA/README.md) for the reference implementation.
+See [Java Server C2PA](../python_server_C2PA/README.md) for the reference implementation.
 
 ## Usage
 
@@ -238,7 +238,7 @@ The popup shows C2PA credential information including:
 **Solutions**:
 1. Start the Flask server:
    ```bash
-   cd java_server_C2PA
+   cd python_server_C2PA
    python app.py
    ```
 2. Verify server is running on port 5000
@@ -402,7 +402,7 @@ fetch('http://localhost:5000/api/full', {
 
 ### With Backend Server
 
-See [Java Server C2PA](../java_server_C2PA/README.md) for the Flask server that powers this extension.
+See [Java Server C2PA](../python_server_C2PA/README.md) for the Flask server that powers this extension.
 
 ### Custom Server Integration
 
@@ -426,7 +426,7 @@ To use with your own server:
 
 - **Issues**: [GitHub Issues](https://github.com/crugiente35/TFM-Provenance-applications/issues)
 - **Documentation**: See main [README.md](../README.md)
-- **Server Issues**: See [Java Server Documentation](../java_server_C2PA/README.md)
+- **Server Issues**: See [Java Server Documentation](../python_server_C2PA/README.md)
 
 ## License
 
@@ -436,7 +436,7 @@ MIT License - See LICENSE file for details
 
 **Related Components**:
 - [JPEG Trust Extension](../c2pa_extension_jpegTrust/) - JPEG Trust verification
-- [Java Server (Flask)](../java_server_C2PA/) - Backend metadata analyzer
+- [Java Server (Flask)](../python_server_C2PA/) - Backend metadata analyzer
 - [Main Project](../README.md) - Complete project documentation
 
 **Last Updated**: June 2026

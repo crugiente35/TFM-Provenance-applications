@@ -16,7 +16,7 @@ This Master's Thesis (TFM) project provides a complete ecosystem for verifying i
 TFM-Provenance-applications/
 ├── c2pa_extension_c2pa/              # Browser extension (C2PA verification)
 ├── c2pa_extension_jpegTrust/         # Browser extension (JPEG Trust verification)
-├── java_server_C2PA/                 # Flask server (Image metadata analysis)
+├── python_server_C2PA/                 # Flask server (Image metadata analysis)
 └── jpeg_trust_orchestrator/          # Spring Boot server (JPEG Trust orchestration)
 ```
 
@@ -36,7 +36,7 @@ Browser extension for JPEG Trust image verification
 - **Server**: Connects to `http://localhost:8085` (JPEG Trust Orchestrator)
 - [Details](c2pa_extension_jpegTrust/README.md)
 
-### 3. **java_server_C2PA**
+### 3. **python_server_C2PA**
 Flask-based REST API for image metadata analysis
 - **Technology**: Python, Flask, Pillow, c2pa library
 - **Purpose**: Extract C2PA credentials, EXIF, GPS, color analysis, file hashes
@@ -46,7 +46,7 @@ Flask-based REST API for image metadata analysis
   - Web UI for interactive analysis
   - JSON export functionality
   - CORS enabled for browser extensions
-- [Details](java_server_C2PA/README.md)
+- [Details](python_server_C2PA/README.md)
 
 ### 4. **jpeg_trust_orchestrator**
 Spring Boot application for JPEG Trust operations
@@ -80,7 +80,7 @@ cd TFM-Provenance-applications
 
 2. **Start Flask server** (Image Metadata Analyzer):
 ```bash
-cd java_server_C2PA
+cd python_server_C2PA
 pip install -r requirements.txt
 python app.py
 # Server runs on http://localhost:5000
@@ -185,7 +185,7 @@ TFM-Provenance-applications/
 │   ├── content.js
 │   ├── popup.css
 │   └── icons/
-├── java_server_C2PA/
+├── python_server_C2PA/
 │   ├── app.py                         # Flask application
 │   ├── requirements.txt               # Python dependencies
 │   ├── templates/
@@ -235,21 +235,21 @@ TFM-Provenance-applications/
 |-----------|------------------|
 | **c2pa_extension_c2pa** | JavaScript, HTML, CSS (Chrome/Firefox MV3) |
 | **c2pa_extension_jpegTrust** | JavaScript, HTML, CSS (Chrome/Firefox MV3) |
-| **java_server_C2PA** | Python, Flask, Pillow, c2pa, Pillow-SIMD |
+| **python_server_C2PA** | Python, Flask, Pillow, c2pa, Pillow-SIMD |
 | **jpeg_trust_orchestrator** | Java 21, Spring Boot 4.0.5, Maven, BouncyCastle |
 
 ## Documentation
 
 - [C2PA Extension](c2pa_extension_c2pa/README.md) - C2PA verification extension
 - [JPEG Trust Extension](c2pa_extension_jpegTrust/README.md) - JPEG Trust verification extension
-- [Java Server](java_server_C2PA/README.md) - Image metadata analyzer
+- [Java Server](python_server_C2PA/README.md) - Image metadata analyzer
 - [JPEG Trust Orchestrator](jpeg_trust_orchestrator/README.md) - JPEG Trust processor
 - [C2PA Technical Spec](jpeg_trust_orchestrator/info/) - C2PA and related documentation
 
 ## Troubleshooting
 
 ### Browser Extension Not Working
-1. Ensure Flask server is running: `python app.py` in `java_server_C2PA/`
+1. Ensure Flask server is running: `python app.py` in `python_server_C2PA/`
 2. Check extension is loaded: `chrome://extensions/`
 3. Open browser console (F12) for error messages
 4. Verify localhost:5000 is accessible
