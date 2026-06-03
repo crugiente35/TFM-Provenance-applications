@@ -30,8 +30,9 @@ public class AiGenerationRecipe {
     @JsonProperty("num_inference_steps")
     private Integer numInferenceSteps = 30;
     
-    // Parámetros base de Fooocus que conviene mantener
+    @JsonProperty("sharpness")
     private Double sharpness = 2.0;
+
     private String aspectRatiosSelection = "1024*1024";
     private String performanceSelection = "Speed";
 

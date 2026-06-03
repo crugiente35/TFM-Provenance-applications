@@ -259,6 +259,9 @@ private IngredientAssertion addInferenceAssertions(List<Assertion> existingAsser
         Map<String, Object> params = new HashMap<>();
         params.put("seed", recipe.getSeed());
         params.put("guidance_scale", recipe.getGuidanceScale());
+        params.put("num_inference_steps", recipe.getNumInferenceSteps());
+        params.put("sharpness", recipe.getSharpness());
+        params.put("aspect_ratios_selection", recipe.getAspectRatiosSelection());
 
         EmbeddedDataAssertion data = new EmbeddedDataAssertion();
         data.setMediaType("application/json");
