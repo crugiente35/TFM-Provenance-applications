@@ -19,8 +19,7 @@ TFM-Provenance-applications/
 ├── c2pa_extension_jpegTrust/         # Browser extension (JPEG Trust verification)
 ├── python_server_C2PA/                 # Flask server (Image metadata analysis)
 ├── jpeg_trust_orchestrator/          # Spring Boot server (JPEG Trust orchestration)
-└── library_remove_metadata/          # Python library (C2PA metadata manipulation & cleaning)
-```
+└── library_remove_metadata/          # Python library (C2PA metadata manipulation & cleaning)```
 
 ## Components
 
