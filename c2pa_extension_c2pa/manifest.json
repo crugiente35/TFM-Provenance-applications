@@ -3,7 +3,7 @@
   "name": "C2PA Image Inspector C2PA",
   "version": "1.0",
   "description": "Detecta si una imagen fue generada por IA usando metadatos C2PA",
-  "permissions": [],
+  "permissions": ["storage"],
   "host_permissions": [
     "http://localhost:5000/*"
   ],

@@ -26,6 +26,43 @@
             --radius-sm: 6px;
         }
 
+        html[data-theme="light"] {
+            --bg:        #f5f5f0;
+            --surface:   #ffffff;
+            --surface-2: #eeeee8;
+            --border:    rgba(0,0,0,0.09);
+            --border-md: rgba(0,0,0,0.16);
+            --text:      #1a1a1e;
+            --text-2:    #6a6a78;
+            --text-3:    #b0b0be;
+            --accent:    #5a8a00;
+            --accent-2:  #0078aa;
+            --ai-red:    #cc3333;
+            --trust-green: #1a7a40;
+        }
+
+        /* ── Theme Toggle Button ── */
+        #theme-toggle {
+            position: fixed;
+            top: 16px;
+            right: 20px;
+            z-index: 999;
+            background: var(--surface);
+            border: 0.5px solid var(--border-md);
+            border-radius: 99px;
+            padding: 6px 13px;
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: var(--text-2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: border-color .2s, color .2s, background .2s;
+            letter-spacing: .04em;
+        }
+        #theme-toggle:hover { color: var(--text); border-color: var(--text-2); }
+
         body {
             font-family: 'DM Mono', monospace;
             background: var(--bg);
@@ -211,6 +248,11 @@
 </head>
 <body>
 
+<button id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
+  <span id="theme-icon">☀</span>
+  <span id="theme-label">Light</span>
+</button>
+
 <header>
     <h1>AI Model Comparison</h1>
     <span class="subtitle">C2PA / JPEG Trust Metadata</span>
@@ -367,4 +409,19 @@
     </div>
 
 </div></body>
+
+<script>
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    const isDark = theme === 'dark';
+    document.getElementById('theme-icon').textContent  = isDark ? '☀' : '☾';
+    document.getElementById('theme-label').textContent = isDark ? 'Light' : 'Dark';
+    localStorage.setItem('theme', theme);
+  }
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  }
+  applyTheme(localStorage.getItem('theme') || 'dark');
+</script>
 </html>

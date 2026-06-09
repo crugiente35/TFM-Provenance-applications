@@ -3,7 +3,7 @@
   "name": "C2PA Image Inspector JPEG Trust",
   "version": "1.0",
   "description": "Detecta si una imagen fue generada por IA usando metadatos JPEG Trust",
-  "permissions": [],
+  "permissions": ["storage"],
   "host_permissions": [
     "http://localhost:8085/*"
   ],

@@ -203,7 +203,47 @@ function attachToImg(img) {
   });
 }
 
-const scan = () => document.querySelectorAll("img").forEach(attachToImg);
-const observer = new MutationObserver(scan);
+function scanImages() {
+  document.querySelectorAll("img").forEach(attachToImg);
+}
+
+const observer = new MutationObserver(() => scanImages());
 observer.observe(document.body, { childList: true, subtree: true });
-scan();
+
+// Initial scan
+scanImages();
+
+function createThemeToggle() {
+  const btn = document.createElement("button");
+  btn.id = "c2pa-theme-toggle";
+  btn.innerHTML = "🌓";
+  btn.title = "Alternar tema del Inspector C2PA";
+  document.body.appendChild(btn);
+
+  // Cargar preferencia guardada desde el almacenamiento local de Chrome
+  if (typeof chrome !== "undefined" && chrome.storage) {
+    chrome.storage.local.get(['c2pa_theme'], (res) => {
+      if (res.c2pa_theme === 'light') {
+        getPopup().classList.add("c2pa-light");
+        btn.classList.add("light-active");
+      }
+    });
+  }
+
+  // Escuchar clicks para cambiar de tema
+  btn.addEventListener("click", () => {
+    const p = getPopup();
+    p.classList.toggle("c2pa-light");
+    btn.classList.toggle("light-active");
+
+    const isLight = p.classList.contains("c2pa-light");
+    
+    // Guardar la preferencia
+    if (typeof chrome !== "undefined" && chrome.storage) {
+      chrome.storage.local.set({ c2pa_theme: isLight ? 'light' : 'dark' });
+    }
+  });
+}
+
+// Inicializar el botón
+createThemeToggle();

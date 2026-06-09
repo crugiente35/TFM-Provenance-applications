@@ -16,17 +16,36 @@
       --warn-bg: #fff8e6; --warn-fg: #7a5200;
       --radius: 10px; --radius-sm: 6px;
     }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #1c1c1a; --surface: #252523; --surface-2: #2e2e2b;
-        --border: rgba(255,255,255,0.08); --border-md: rgba(255,255,255,0.14);
-        --text: #f0efe9; --text-2: #9a9a94; --text-3: #5a5a56;
-        --accent: #f0efe9; --accent-fg: #1c1c1a;
-        --success-bg: #173404; --success-fg: #c0dd97;
-        --danger-bg: #501313; --danger-fg: #f7c1c1;
-        --warn-bg: #3a2a00; --warn-fg: #ffd980;
-      }
+    html[data-theme="dark"] {
+      --bg: #1c1c1a; --surface: #252523; --surface-2: #2e2e2b;
+      --border: rgba(255,255,255,0.08); --border-md: rgba(255,255,255,0.14);
+      --text: #f0efe9; --text-2: #9a9a94; --text-3: #5a5a56;
+      --accent: #f0efe9; --accent-fg: #1c1c1a;
+      --success-bg: #173404; --success-fg: #c0dd97;
+      --danger-bg: #501313; --danger-fg: #f7c1c1;
+      --warn-bg: #3a2a00; --warn-fg: #ffd980;
     }
+
+    /* ── Theme Toggle Button ── */
+    #theme-toggle {
+      position: fixed;
+      top: 16px;
+      right: 18px;
+      z-index: 999;
+      background: var(--surface);
+      border: 0.5px solid var(--border-md);
+      border-radius: 99px;
+      padding: 6px 13px;
+      font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+      font-size: 12px;
+      color: var(--text-2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+    #theme-toggle:hover { color: var(--text); border-color: var(--text); }
     body { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 2rem 1rem; overflow-x: hidden; }
     .container { max-width: 650px; margin: 0 auto; }
     .header { margin-bottom: 1.75rem; }
@@ -155,6 +174,12 @@
   </style>
 </head>
 <body>
+
+<button id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
+  <span id="theme-icon">☾</span>
+  <span id="theme-label">Dark</span>
+</button>
+
 <div class="container">
   <div class="header">
     <h1>JPEG Trust Orchestrator</h1>
@@ -821,6 +846,20 @@
     })
     .finally(() => { btn.disabled = false; btn.textContent = originalText; });
   }
+  // ── Theme Toggle ──
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    const isDark = theme === 'dark';
+    document.getElementById('theme-icon').textContent  = isDark ? '☀' : '☾';
+    document.getElementById('theme-label').textContent = isDark ? 'Light' : 'Dark';
+    localStorage.setItem('theme', theme);
+  }
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  }
+  // Init — respect saved preference, default to light (matches original design)
+  applyTheme(localStorage.getItem('theme') || 'light');
 </script>
 </body>
 </html>

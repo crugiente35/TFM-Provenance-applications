@@ -139,3 +139,70 @@ img.c2pa-hover-trusted { outline: 2px solid #22c55e88 !important; outline-offset
 img.c2pa-hover-valid   { outline: 2px solid #f59e0b88 !important; outline-offset: 2px; }
 img.c2pa-hover-none    { outline: 2px solid #6b728044 !important; outline-offset: 2px; }
 img.c2pa-hover-loading { outline: 2px solid #7c6ef744 !important; outline-offset: 2px; }
+/* ── Botón Flotante de Tema ── */
+#c2pa-theme-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 2147483647;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #1e1e2e;
+  border: 1px solid #2a2a3a;
+  color: #c8c8e0;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  transition: all 0.2s ease;
+}
+
+#c2pa-theme-toggle:hover {
+  transform: scale(1.05);
+  background: #2a2a3a;
+}
+
+#c2pa-theme-toggle.light-active {
+  background: #ffffff;
+  border-color: #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* ── Modo Claro (Activado por la clase .c2pa-light) ── */
+#c2pa-popup.c2pa-light {
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.12));
+}
+
+#c2pa-popup.c2pa-light #c2pa-popup-inner {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+}
+
+#c2pa-popup.c2pa-light .c2pa-header {
+  border-bottom: 1px solid #f3f4f6;
+}
+
+#c2pa-popup.c2pa-light .c2pa-label {
+  color: #000000;
+}
+
+#c2pa-popup.c2pa-light .c2pa-value {
+  color: #1f2937;
+}
+
+#c2pa-popup.c2pa-light .c2pa-value.highlight {
+  color: #000000;
+}
+
+#c2pa-popup.c2pa-light .c2pa-value.muted {
+  color: #000000;
+}
+
+#c2pa-popup.c2pa-light .c2pa-tag.other {
+  background: #f3f4f6;
+  color: #000000;
+  border: 1px solid #e5e7eb;
+}

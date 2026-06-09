@@ -21,6 +21,41 @@
       --sans: 'Syne', sans-serif;
     }
 
+    html[data-theme="light"] {
+      --bg: #f4f4f8;
+      --surface: #ffffff;
+      --surface2: #ebebf2;
+      --border: #d0d0dc;
+      --accent: #5a4fd4;
+      --accent2: #d94f4f;
+      --text: #18181f;
+      --muted: #7070888;
+      --success: #1a8f56;
+      --muted: #60607a;
+    }
+
+    /* ── Theme Toggle Button ── */
+    #theme-toggle {
+      position: fixed;
+      top: 18px;
+      right: 20px;
+      z-index: 999;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 6px 13px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: border-color .2s, color .2s;
+      letter-spacing: .04em;
+    }
+    #theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
@@ -402,6 +437,12 @@
   </style>
 </head>
 <body>
+
+<button id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
+  <span id="theme-icon">☀</span>
+  <span id="theme-label">Light</span>
+</button>
+
 <div class="container">
 
   <header>
@@ -687,6 +728,21 @@
     document.getElementById('url-input').value = '';
     hideError(); hideResults();
   }
+
+  // ── Theme Toggle ──
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    const isDark = theme === 'dark';
+    document.getElementById('theme-icon').textContent  = isDark ? '☀' : '☾';
+    document.getElementById('theme-label').textContent = isDark ? 'Light' : 'Dark';
+    localStorage.setItem('theme', theme);
+  }
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  }
+  // Init
+  applyTheme(localStorage.getItem('theme') || 'dark');
 </script>
 </body>
 </html>
