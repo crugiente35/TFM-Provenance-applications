@@ -9,7 +9,8 @@ This Master's Thesis (TFM) project provides a complete ecosystem for verifying i
 - **JPEG Trust**: Enhanced JPEG format with provenance indicators
 - **Browser Extensions**: User-friendly interfaces for instant verification
 - **REST APIs**: Backend services for metadata processing and validation
-
+- **Metadata Manipulation Libraries**: Tools for anonymizing images while preserving the provenance chain
+- 
 ## Project Architecture
 
 ```
@@ -17,7 +18,8 @@ TFM-Provenance-applications/
 ├── c2pa_extension_c2pa/              # Browser extension (C2PA verification)
 ├── c2pa_extension_jpegTrust/         # Browser extension (JPEG Trust verification)
 ├── python_server_C2PA/                 # Flask server (Image metadata analysis)
-└── jpeg_trust_orchestrator/          # Spring Boot server (JPEG Trust orchestration)
+├── jpeg_trust_orchestrator/          # Spring Boot server (JPEG Trust orchestration)
+└── library_remove_metadata/          # Python library (C2PA metadata manipulation & cleaning)
 ```
 
 ## Components
@@ -61,6 +63,19 @@ Spring Boot application for JPEG Trust operations
   - Git submodules for mipams libraries
 - [Details](jpeg_trust_orchestrator/README.md)
 
+### 5. **library_remove_metadata**
+Python module for manipulating and cleaning traditional metadata while preserving the C2PA provenance chain.
+- **Technology**: Python
+- **Purpose**: Anonymizing or processing images without breaking trust history and media traceability.
+- **Features**:
+  - Metadata injection (`C2PAMetadataInjector`) for simulating EXIF properties
+  - Metadata cleaning and anonymization (`C2PACleaner`) for privacy
+  - Cryptographic signing capabilities at each step (handling certificates and private keys)
+- [Details](library_remove_metadata/README.md)
+
+
+* [Details](https://www.google.com/search?q=library_remove_metadata/README.md)
+
 ## Quick Start
 
 ### Prerequisites
@@ -93,14 +108,22 @@ mvn clean install
 mvn spring-boot:run
 # Server runs on http://localhost:8085
 ```
+4. **Run Metadata Cleaning/Injection Test** (Optional):
 
-4. **Load browser extensions**:
+```bash
+cd ../library_remove_metadata
+pip install -r requirements.txt
+python test.py
+# Generates fake EXIF metadata and subsequently cleans it while preserving C2PA history.
+
+```
+5. **Load browser extensions**:
    - Open `chrome://extensions` (Chrome) or `about:addons` (Firefox)
    - Enable "Developer mode"
    - Click "Load unpacked" and select `c2pa_extension_c2pa/`
    - Repeat for `c2pa_extension_jpegTrust/`
 
-5. **Visit a website with images** and hover over images to see provenance information!
+6. **Visit a website with images** and hover over images to see provenance information!
 
 ## API Endpoints
 
@@ -193,50 +216,62 @@ TFM-Provenance-applications/
 │   │   └── test.html
 │   └── static/
 │       └── img/
-└── jpeg_trust_orchestrator/
-    ├── pom.xml                        # Maven configuration
-    ├── src/                           # Java source code
-    ├── mipams-jpeg-trust/             # Git submodule (custom)
-    ├── mipams-jpeg-systems/           # Git submodule (original)
-    └── info/                          # Documentation & specs
-```
+├── jpeg_trust_orchestrator/
+│   ├── pom.xml                        # Maven configuration
+│   ├── src/                           # Java source code
+│   ├── mipams-jpeg-trust/             # Git submodule (custom)
+│   └── mipams-jpeg-systems/           # Git submodule (original)
+└── library_remove_metadata/           # C2PA metadata manipulation tools
+    ├── c2pa_cleaner_injector.py       # Core classes (C2PACleaner, C2PAMetadataInjector)
+    ├── test.py                        # Execution and testing workflow
+    ├── certificados/                  # C2PA signing credentials (certs.pem, privKey.pem)
+    └── [Test Images]                  # Input/output test files
+
 
 ## Key Features
 
 ### C2PA Support
-- Extract and validate C2PA credentials
-- Display content history and creator information
-- Verify digital signatures
-- Detect credential tampering
-- Show AI-generation claims
+
+* Extract and validate C2PA credentials
+* Display content history and creator information
+* Verify digital signatures
+* Detect credential tampering
+* Show AI-generation claims
+
+### Metadata Manipulation & Privacy
+
+* Clean traditional EXIF data for user anonymity
+* Inject metadata securely
+* Track metadata modifications through chained C2PA manifests (`c2pa.edited` and `c2pa.opened` actions)
 
 ### JPEG Trust Integration
-- Process JPEG Trust indicators
-- Validate provenance metadata
-- Detect potential AI-generated content
-- Integration with mipams libraries
+
+* Process JPEG Trust indicators
+* Validate provenance metadata
+* Detect potential AI-generated content
+* Integration with mipams libraries
 
 ### Multi-Format Processing
-- JPEG/JPG images
-- PNG images
-- GIF images
-- WebP images
-- MP3, MP4, and other media formats
+
+* JPEG/JPG, PNG, GIF, WebP images
+* MP3, MP4, and other media formats
 
 ### User-Friendly Interfaces
-- Hover-based popup verification
-- Web UI for batch analysis
-- JSON export for automation
-- Visual trust indicators
+
+* Hover-based popup verification
+* Web UI for batch analysis
+* JSON export for automation
+* Visual trust indicators
 
 ## Technologies Used
 
 | Component | Technology Stack |
-|-----------|------------------|
+| --- | --- |
 | **c2pa_extension_c2pa** | JavaScript, HTML, CSS (Chrome/Firefox MV3) |
 | **c2pa_extension_jpegTrust** | JavaScript, HTML, CSS (Chrome/Firefox MV3) |
 | **python_server_C2PA** | Python, Flask, Pillow, c2pa, Pillow-SIMD |
 | **jpeg_trust_orchestrator** | Java 21, Spring Boot 4.0.5, Maven, BouncyCastle |
+| **library_remove_metadata** | Python |
 
 ## Documentation
 
@@ -244,7 +279,8 @@ TFM-Provenance-applications/
 - [JPEG Trust Extension](c2pa_extension_jpegTrust/README.md) - JPEG Trust verification extension
 - [Java Server](python_server_C2PA/README.md) - Image metadata analyzer
 - [JPEG Trust Orchestrator](jpeg_trust_orchestrator/README.md) - JPEG Trust processor
-- [C2PA Technical Spec](jpeg_trust_orchestrator/info/) - C2PA and related documentation
+- [Metadata Removal Library](library_remove_metadata/README.md) - C2PA metadata manipulation and cleaning
+- [C2PA Technical Spec](https://spec.c2pa.org/specifications/specifications/2.3/specs/C2PA_Specification.html) - C2PA and related documentation
 
 ## Troubleshooting
 
@@ -290,6 +326,7 @@ This project is licensed under the **MIT License**.
 - **BouncyCastle** - MIT License
 - **Flask** - BSD License
 - **Pillow** - HPND License
+- **piexif** - MIT License
 
 See individual component LICENSE files for details.
 
